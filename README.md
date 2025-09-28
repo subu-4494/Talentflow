@@ -1,15 +1,15 @@
-# Talentflow  A mini hiring platform
+# TalentFlow - A Mini Hiring Platform
 
 ## Table of Contents
 
-- [Overview](#overview)  
-- [Architecture](#architecture)  
-- [Setup](#setup)  
-- [Project Structure](#project-structure)  
-- [Core Features](#core-features)  
-- [Technical Decisions](#technical-decisions)  
-- [Known Issues](#known-issues)  
-- [References](#references)  
+- [Overview](#overview)
+- [Architecture](#architecture)
+- [Setup](#setup)
+- [Project Structure](#project-structure)
+- [Core Features](#core-features)
+- [Technical Decisions](#technical-decisions)
+- [Known Issues](#known-issues)
+- [References](#references)
 
 ---
 
@@ -38,15 +38,19 @@ The frontend architecture is divided into four main layers:
 - On SPA initialization, **Seed Module** populates the local database.  
 - Utility functions such as `slugify` assist in data normalization and formatting.
 
-##Setup Prerequisites
+---
 
-Node.js (v18+ recommended)
+## Setup
 
-npm (v9+) or yarn
+### Prerequisites
 
-Git
+- Node.js (v18+ recommended)  
+- npm (v9+) or yarn  
+- Git  
 
-Installation
+### Installation
+
+```bash
 # Clone repository
 git clone https://github.com/subu-4494/talentflow.git
 cd talentflow/frontend
@@ -56,12 +60,9 @@ npm install
 
 # Start development server
 npm run dev
-
-
 The application will be accessible at http://localhost:5173.
 
 Scripts
-
 npm run dev - Launches the Vite development server.
 
 npm run build - Builds the project for production.
@@ -71,6 +72,8 @@ npm run preview - Previews the production build locally.
 npm run lint - Runs ESLint for code quality.
 
 Project Structure
+text
+Copy code
 frontend/
 ├─ src/
 │  ├─ components/
@@ -105,9 +108,7 @@ frontend/
 ├─ vite.config.js
 ├─ package.json
 └─ eslint.config.js
-
 Core Features
-
 Job Management
 
 Candidate Management
@@ -119,7 +120,6 @@ Mock API with MSW and local persistence
 Utility functions and data seeding
 
 Technical Decisions
-
 React SPA with Vite
 
 MSW for mock API
@@ -137,7 +137,6 @@ Global CSS management
 ESLint for code quality
 
 Known Issues
-
 File uploads are stored in memory.
 
 Complex conditional logic may need backend support.
@@ -147,7 +146,6 @@ Some components require more unit tests.
 No authentication; email-based identification only.
 
 References
-
 Vite Documentation
 
 React Documentation
@@ -156,14 +154,14 @@ MSW Documentation
 
 Dexie.js Documentation
 
-### Mermaid Diagram
-
-```mermaid
+Architecture Diagram
+mermaid
+Copy code
 flowchart TD
     Browser["User's Browser"]:::external
     ReactApp["React SPA (Vite Bundle)"]:::service
 
-    subgraph "UI Layer" 
+    subgraph "UI Layer"
         direction TB
         NavBar["[NavBar Component](https://github.com/subu-4494/talentflow/blob/main/frontend/src/components/NavBar.jsx)"]:::ui
         subgraph "Page Routes"
@@ -184,7 +182,7 @@ flowchart TD
         end
     end
 
-    subgraph "Service Layer" 
+    subgraph "Service Layer"
         direction TB
         APIClient["[API Client (api.js)](https://github.com/subu-4494/talentflow/blob/main/frontend/src/lib/api.js)"]:::service
         MSWBrowser["[MSW Browser Setup](https://github.com/subu-4494/talentflow/blob/main/frontend/src/lib/msw/browser.js)"]:::service
@@ -237,9 +235,3 @@ flowchart TD
     classDef config fill:#E1BEE7,stroke:#8E24AA,stroke-width:1px
     classDef external fill:#F5F5F5,stroke:#616161,stroke-width:1px,stroke-dasharray:5
     classDef optional fill:#F5F5F5,stroke:#616161,stroke-width:1px,stroke-dasharray:5
-
-
-
-
-
-
