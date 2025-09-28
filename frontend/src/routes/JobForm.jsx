@@ -63,26 +63,57 @@ export default function JobForm() {
     }
   };
 
-  if (loading) return <div className="container">Loading job...</div>;
+  if (loading)
+    return <div style={{ padding: "2rem", textAlign: "center" }}>Loading job...</div>;
+
+  // Styles
+  const styles = {
+    container: { maxWidth: 600, margin: "2rem auto", padding: "0 1rem" },
+    header: { fontSize: "1.8rem", fontWeight: 600, marginBottom: "1rem" },
+    form: { display: "flex", flexDirection: "column", gap: "1rem" },
+    input: {
+      padding: "0.6rem 0.8rem",
+      borderRadius: 6,
+      border: "1px solid #ccc",
+      fontSize: "1rem",
+    },
+    button: {
+      padding: "0.6rem 1.2rem",
+      borderRadius: 6,
+      border: "none",
+      backgroundColor: "#4f46e5",
+      color: "#fff",
+      fontWeight: 500,
+      cursor: "pointer",
+      transition: "all 0.2s",
+      alignSelf: "flex-start",
+    },
+    error: { color: "#dc2626", fontWeight: 500 },
+  };
 
   return (
-    <div className="container">
-      <h1>{jobId ? "Edit Job" : "Create Job"}</h1>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      <form onSubmit={handleSubmit}>
+    <div style={styles.container}>
+      <h1 style={styles.header}>{jobId ? "Edit Job" : "Create Job"}</h1>
+      {error && <p style={styles.error}>{error}</p>}
+      <form onSubmit={handleSubmit} style={styles.form}>
         <input
           placeholder="Title"
           value={job.title}
           onChange={(e) => setJob({ ...job, title: e.target.value })}
-          style={{ display: "block", marginBottom: "0.5rem", width: "100%", padding: "0.5rem" }}
+          style={styles.input}
         />
         <input
           placeholder="Tags (comma separated)"
           value={job.tags.join(",")}
           onChange={(e) => setJob({ ...job, tags: e.target.value.split(",") })}
-          style={{ display: "block", marginBottom: "0.5rem", width: "100%", padding: "0.5rem" }}
+          style={styles.input}
         />
-        <button type="submit" style={{ padding: "0.5rem 1rem" }}>
+        <button
+          type="submit"
+          style={styles.button}
+          onMouseOver={(e) => (e.currentTarget.style.opacity = 0.9)}
+          onMouseOut={(e) => (e.currentTarget.style.opacity = 1)}
+        >
           Save
         </button>
       </form>

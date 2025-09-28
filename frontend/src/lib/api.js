@@ -1,7 +1,7 @@
 import { db } from "./db";
 import { slugify } from "../utilis/slugify";
 
-// Jobs API
+// ----------------- Jobs API -----------------
 export async function getJobs({ search = "", status, page = 1, pageSize = 10 }) {
   let query = db.jobs.orderBy("order");
 
@@ -59,7 +59,7 @@ export async function reorderJob({ fromOrder, toOrder }) {
   return moved;
 }
 
-// Candidates API
+// ----------------- Candidates API -----------------
 export async function getCandidates({ search = "", stage, page = 1, pageSize = 50 }) {
   let query = db.candidates.orderBy("id");
 
@@ -92,7 +92,7 @@ export async function getCandidateTimeline(id) {
   return await db.timelines.where("candidateId").equals(id).toArray();
 }
 
-// Notes API
+// ----------------- Notes API -----------------
 export async function addNote(candidateId, text) {
   const note = { candidateId, text, timestamp: Date.now() };
   const id = await db.notes.add(note);
@@ -103,29 +103,59 @@ export async function getNotes(candidateId) {
   return await db.notes.where("candidateId").equals(candidateId).toArray();
 }
 
-// Assessments API
+// ----------------- Assessment API -----------------
 export async function getAssessment(jobId) {
-  return await db.assessments.get(jobId);
+  // Fixed: use where + first instead of get
+  return await db.assessments.where("jobId").equals(jobId).first();
 }
 
 export async function saveAssessment(jobId, sections) {
-  await db.assessments.put({ jobId, sections });
-  return { jobId, sections };
+  const entry = { jobId, sections };
+  await db.assessments.put(entry);
+  return entry;
 }
 
-
-
-
 export async function submitAssessment(jobId, candidateId, responses) {
-  
   const entry = { candidateId, jobId, responses, timestamp: Date.now() };
   const id = await db.responses.add(entry);
   return { id, ...entry };
 }
 
-// Optional: fetch candidate responses later
 export async function getCandidateResponses(candidateId, jobId) {
-  return await db.responses
-    .where({ candidateId, jobId })
-    .toArray();
+  return await db.responses.where({ candidateId, jobId }).toArray();
 }
+
+export async function getCandidateResponse(jobId, candidateId) {
+  return await db.responses.where({ jobId, candidateId }).first();
+}
+
+
+
+// Save candidate response in localStorage
+export function saveCandidateResponse({ email, jobId, responses }) {
+  const key = "candidateResponses";
+  const existing = JSON.parse(localStorage.getItem(key)) || [];
+
+  const newEntry = {
+    email,
+    jobId,
+    responses,
+    timestamp: new Date().toISOString(),
+  };
+
+  existing.push(newEntry);
+  localStorage.setItem(key, JSON.stringify(existing));
+
+  return newEntry;
+}
+
+
+export function getCandidateResponsesByEmail(email, jobId) {
+  const key = "candidateResponses";
+  const allResponses = JSON.parse(localStorage.getItem(key)) || [];
+
+  return allResponses.filter(
+    (r) => r.email === email && Number(r.jobId) === Number(jobId)
+  );
+}
+

@@ -87,31 +87,75 @@ export default function AssessmentBuilder() {
     alert("Assessment saved!");
   };
 
-  if (loading) return <div className="container">Loading builder...</div>;
+  if (loading) return <div style={{ padding: "2rem", textAlign: "center" }}>Loading builder...</div>;
+
+  // ===== Styles =====
+  const styles = {
+    container: { maxWidth: 900, margin: "2rem auto", padding: "0 1rem", fontFamily: "Arial, sans-serif" },
+    pageTitle: { fontSize: "2rem", marginBottom: "1rem", color: "#111827" },
+    button: {
+      padding: "0.5rem 1rem",
+      borderRadius: 6,
+      border: "none",
+      backgroundColor: "#4f46e5",
+      color: "#fff",
+      cursor: "pointer",
+      fontWeight: 500,
+      margin: "0.2rem 0.2rem 0.2rem 0",
+      transition: "all 0.2s",
+    },
+    card: {
+      padding: "1rem",
+      marginBottom: "1rem",
+      border: "1px solid #e5e7eb",
+      borderRadius: 8,
+      backgroundColor: "#f9fafb",
+      boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
+    },
+    sectionTitle: { fontSize: "1.2rem", fontWeight: "bold", marginBottom: "0.5rem" },
+    questionContainer: {
+      padding: "0.5rem",
+      border: "1px solid #d1d5db",
+      borderRadius: 6,
+      marginBottom: "0.5rem",
+      backgroundColor: "#fff",
+    },
+    input: { width: "70%", padding: "0.4rem 0.6rem", marginRight: "0.5rem", borderRadius: 4, border: "1px solid #ccc" },
+    select: { padding: "0.4rem 0.6rem", borderRadius: 4, border: "1px solid #ccc", marginRight: "0.5rem" },
+    livePreviewSection: {
+      padding: "0.8rem",
+      border: "1px dashed #3b82f6",
+      marginBottom: "1rem",
+      borderRadius: 6,
+      backgroundColor: "#f0f9ff",
+    },
+    label: { display: "block", marginBottom: "0.3rem", fontWeight: 500 },
+  };
 
   return (
-    <div className="container">
-      <h1 className="page-title">Assessment Builder for Job {jobId}</h1>
-      <button onClick={addSection} style={{ marginBottom: "1rem" }}>Add Section</button>
+    <div style={styles.container}>
+      <h1 style={styles.pageTitle}>Assessment Builder for Job {jobId}</h1>
+      <button style={styles.button} onClick={addSection}>Add Section</button>
 
       {assessment.sections.map((section) => (
-        <div key={section.id} className="card" style={{ padding: "1rem", marginBottom: "1rem" }}>
+        <div key={section.id} style={styles.card}>
           <input
+            style={{ ...styles.input, fontSize: "1.1rem", fontWeight: "bold" }}
             value={section.title}
             onChange={(e) => updateSectionTitle(section.id, e.target.value)}
-            style={{ fontSize: "1.1rem", fontWeight: "bold", marginBottom: "0.5rem" }}
           />
-          <button onClick={() => removeSection(section.id)}>Delete Section</button>
+          <button style={styles.button} onClick={() => removeSection(section.id)}>Delete Section</button>
 
           <div style={{ marginTop: "0.5rem" }}>
             {section.questions.map(q => (
-              <div key={q.id} style={{ padding: "0.5rem", border: "1px solid #ccc", marginBottom: "0.5rem" }}>
+              <div key={q.id} style={styles.questionContainer}>
                 <input
+                  style={styles.input}
                   value={q.text}
                   onChange={(e) => updateQuestion(section.id, q.id, { text: e.target.value })}
-                  style={{ width: "70%" }}
                 />
                 <select
+                  style={styles.select}
                   value={q.type}
                   onChange={(e) => updateQuestion(section.id, q.id, { type: e.target.value })}
                 >
@@ -122,13 +166,14 @@ export default function AssessmentBuilder() {
                   <option value="multi_choice">Multi Choice</option>
                   <option value="file_upload">File Upload</option>
                 </select>
-                <button onClick={() => removeQuestion(section.id, q.id)}>Delete</button>
+                <button style={styles.button} onClick={() => removeQuestion(section.id, q.id)}>Delete</button>
 
                 {q.type.includes("choice") && (
-                  <div>
+                  <div style={{ marginTop: "0.3rem" }}>
                     {q.options.map((opt, idx) => (
                       <input
                         key={idx}
+                        style={{ ...styles.input, width: "60%", marginBottom: "0.2rem" }}
                         value={opt}
                         onChange={(e) => {
                           const newOptions = [...q.options];
@@ -137,41 +182,45 @@ export default function AssessmentBuilder() {
                         }}
                       />
                     ))}
-                    <button onClick={() => updateQuestion(section.id, q.id, { options: [...q.options, `Option ${q.options.length + 1}`] })}>
+                    <button style={styles.button} onClick={() => updateQuestion(section.id, q.id, { options: [...q.options, `Option ${q.options.length + 1}`] })}>
                       Add Option
                     </button>
                   </div>
                 )}
               </div>
             ))}
-            <button onClick={() => addQuestion(section.id)}>Add Question</button>
+            <button style={styles.button} onClick={() => addQuestion(section.id)}>Add Question</button>
           </div>
         </div>
       ))}
 
-      <h2>Live Preview</h2>
+      <h2 style={{ marginTop: "1.5rem" }}>Live Preview</h2>
       {assessment.sections.map((section) => (
-        <div key={section.id} style={{ padding: "0.5rem", border: "1px dashed #007bff", marginBottom: "1rem" }}>
-          <h3>{section.title}</h3>
+        <div key={section.id} style={styles.livePreviewSection}>
+          <h3 style={styles.sectionTitle}>{section.title}</h3>
           {section.questions.map(q => (
-            <div key={q.id}>
-              <label>{q.text} {q.required && "*"}</label><br/>
-              {q.type === "short_text" && <input type="text" maxLength={q.validation?.maxLength} required={q.required} />}
-              {q.type === "long_text" && <textarea maxLength={q.validation?.maxLength} required={q.required} />}
-              {q.type === "numeric" && <input type="number" min={q.validation?.min} max={q.validation?.max} required={q.required} />}
+            <div key={q.id} style={{ marginBottom: "0.5rem" }}>
+              <label style={styles.label}>{q.text} {q.required && "*"}</label>
+              {q.type === "short_text" && <input type="text" maxLength={q.validation?.maxLength} required={q.required} style={styles.input} />}
+              {q.type === "long_text" && <textarea maxLength={q.validation?.maxLength} required={q.required} style={{ ...styles.input, height: "3rem" }} />}
+              {q.type === "numeric" && <input type="number" min={q.validation?.min} max={q.validation?.max} required={q.required} style={styles.input} />}
               {q.type === "single_choice" && q.options.map((opt, idx) => (
-                <label key={idx}><input type="radio" name={q.id} /> {opt}</label>
+                <label key={idx} style={{ display: "block" }}>
+                  <input type="radio" name={q.id} style={{ marginRight: "0.3rem" }} /> {opt}
+                </label>
               ))}
               {q.type === "multi_choice" && q.options.map((opt, idx) => (
-                <label key={idx}><input type="checkbox" name={q.id} /> {opt}</label>
+                <label key={idx} style={{ display: "block" }}>
+                  <input type="checkbox" name={q.id} style={{ marginRight: "0.3rem" }} /> {opt}
+                </label>
               ))}
-              {q.type === "file_upload" && <input type="file" />}
+              {q.type === "file_upload" && <input type="file" style={styles.input} />}
             </div>
           ))}
         </div>
       ))}
 
-      <button onClick={handleSave} style={{ marginTop: "1rem" }}>Save Assessment</button>
+      <button style={{ ...styles.button, marginTop: "1rem" }} onClick={handleSave}>Save Assessment</button>
     </div>
   );
 }

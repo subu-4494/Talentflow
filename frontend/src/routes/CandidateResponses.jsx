@@ -14,29 +14,46 @@ export default function CandidateResponses() {
       const resps = await getCandidateResponses(Number(candidateId), Number(jobId));
 
       setAssessment(assmt);
-   
       setResponses(resps.length > 0 ? resps[resps.length - 1].responses : {});
       setLoading(false);
     };
     fetchData();
   }, [jobId, candidateId]);
 
-  if (loading) return <div className="container">Loading responses...</div>;
-  if (!assessment) return <div className="container">Assessment not found</div>;
+  if (loading) return <div className="container" style={{ textAlign: "center", padding: "2rem" }}>Loading responses...</div>;
+  if (!assessment) return <div className="container" style={{ textAlign: "center", padding: "2rem" }}>Assessment not found</div>;
 
   return (
-    <div className="container">
-      <h1 className="page-title">
-        Responses for Candidate {candidateId} - Job {jobId}
+    <div className="container" style={{ maxWidth: 900, margin: "2rem auto", padding: "0 1rem" }}>
+      <h1 className="page-title" style={{ marginBottom: "2rem" }}>
+        Candidate Responses - Job {jobId}
       </h1>
 
       {assessment.sections.map((section, sIdx) => (
-        <div key={sIdx} className="card" style={{ padding: "1rem", marginBottom: "1rem" }}>
-          <h3>{section.title}</h3>
-          {section.questions.map((q, qIdx) => (
-            <div key={q.id} style={{ marginBottom: "0.5rem" }}>
-              <strong>{q.text}</strong>:{" "}
-              <span>
+        <div key={sIdx} style={{
+          padding: "1rem",
+          marginBottom: "1.5rem",
+          borderRadius: 8,
+          border: "1px solid #e5e7eb",
+          boxShadow: "0 2px 6px rgba(0,0,0,0.05)",
+          background: "#fff"
+        }}>
+          <h2 style={{ marginBottom: "1rem", color: "#1f2937" }}>{section.title}</h2>
+          {section.questions.map((q) => (
+            <div key={q.id} style={{
+              marginBottom: "0.75rem",
+              padding: "0.5rem",
+              borderBottom: "1px solid #f3f4f6",
+            }}>
+              <strong style={{ display: "block", marginBottom: "0.25rem", color: "#111827" }}>{q.text}</strong>
+              <span style={{
+                color: "#374151",
+                background: "#f3f4f6",
+                padding: "0.25rem 0.5rem",
+                borderRadius: 4,
+                display: "inline-block",
+                minWidth: 100
+              }}>
                 {q.type === "file_upload" && responses[q.id]
                   ? responses[q.id].name
                   : Array.isArray(responses[q.id])

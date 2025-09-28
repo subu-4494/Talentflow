@@ -11,6 +11,9 @@ import AssessmentForm from "./routes/AssessmentForm";
 import AssessmentsPage from "./routes/AssessmentsPage";
 import AssessmentBuilder from "./routes/AssessmentBuilder";
 import NavBar from "./components/NavBar";
+import CandidateAssessmentPage from "./routes/CandidateAssessmentPage";
+import CandidateKanban from "./routes/CandidateKanban";
+import CandidateResponsesByEmail from "./routes/CandidateResponsesByEmail";
 
 
 
@@ -29,9 +32,16 @@ export default function App() {
         <Route path="/jobs/:jobId/edit" element={<JobForm />} />  
         <Route path="/jobs/:jobId" element={<JobDetails />} />
 
+        <Route path="/candidates/:id/assessments/:jobId" element={<CandidateAssessmentPage />}/>
+        <Route path="/candidate-responses" element={<CandidateResponsesByEmail />} />
+
+
         
         <Route path="/candidates" element={<CandidatesPage />} />
         <Route path="/candidates/:id" element={<CandidateProfile />} />
+
+        <Route path="/candidates/kanban" element={<CandidateKanban />} />
+
 
         
         <Route path="/assessments/:jobId" element={<AssessmentsPage />} />

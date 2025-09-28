@@ -45,7 +45,10 @@ export default function AssessmentsPage() {
           <button style={{ marginRight: "1rem" }}>Open Builder</button>
         </Link>
         <Link to={`/assessments/${jobId}/take`}>
-          <button>Take Assessment</button>
+          <button style={{ marginRight: "1rem" }}>Take Assessment</button>
+        </Link>
+        <Link to={`/candidate-responses`}>
+          <button>Candidate Responses</button>
         </Link>
       </div>
 
