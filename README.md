@@ -40,6 +40,9 @@ The frontend architecture is divided into four main layers:
 
 ---
 
+**Architecture Diagram
+![TalentFlow Architecture](https://github.com/subu-4494/Talentflow/blob/main/diagram.png)**
+
 ## Setup
 
 ### Prerequisites
@@ -72,8 +75,6 @@ npm run preview - Previews the production build locally.
 npm run lint - Runs ESLint for code quality.
 
 Project Structure
-text
-Copy code
 frontend/
 ├─ src/
 │  ├─ components/
@@ -153,7 +154,4 @@ React Documentation
 MSW Documentation
 
 Dexie.js Documentation
-
-Architecture Diagram
-![TalentFlow Architecture](https://github.com/subu-4494/Talentflow/blob/main/diagram.png)
   
