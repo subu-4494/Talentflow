@@ -156,7 +156,4 @@ Dexie.js Documentation
 
 Architecture Diagram
 ![TalentFlow Architecture](https://github.com/subu-4494/Talentflow/blob/main/diagram.png)
-    classDef pers fill:#FFE0B2,stroke:#F57C00,stroke-width:1px
-    classDef config fill:#E1BEE7,stroke:#8E24AA,stroke-width:1px
-    classDef external fill:#F5F5F5,stroke:#616161,stroke-width:1px,stroke-dasharray:5
-    classDef optional fill:#F5F5F5,stroke:#616161,stroke-width:1px,stroke-dasharray:5
+  
