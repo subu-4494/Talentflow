@@ -123,5 +123,5 @@ flowchart TD
 
 
 
-Dexie.js Documentation
+
 
